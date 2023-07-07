@@ -23,12 +23,16 @@ userRouter.get('/users/add',(req,res) =>{
     return res.status(400).send(validationResult.error.details[0].message);}
     else{
       const userExists = userList.some(user => user.email === email);
+      let userValid = true;
       if(userExists){
-        return res.status(409).send('User with this email already exists');
+        userValid= false
+        return res.status(409).send(`success: ${userValid},
+        Error:User with this email already exists`);
       } else{
-        const newUser = { id, name,username, email };
+        userValid=true
+        const newUser = { id: idCounter++ , name,username, email };
     userList.push(newUser);
-    res.send(`User added successfully!. Your user id ${id}`);
+    res.send(`success: ${userValid}. Your user id ${id}`);
       };
 }})
 
